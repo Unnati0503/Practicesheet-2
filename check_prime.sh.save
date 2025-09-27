@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Function to check if a number is prime
+is_prime() {
+    local num=$1
+
+    if (( num <= 1 )); then
+        echo "$num is not a prime number."
+        return
+    fi
+
+    if (( num == 2 )); then
+        echo "$num is a prime number."
+        return
+    fi
+
+    if (( num % 2 == 0 )); then
+        echo "$num is not a prime number."
+        return
+    fi
+
+    sqrt=$(echo "sqrt($num)" | bc)
+    for (( i=3; i<=sqrt; i+=2 )); do
+        if (( num % i == 0 )); then
+            echo "$num is not a prime number."
+            return
+        fi
+    done
+
+    echo "$num is a prime number."
+}
+
+# Read number from user
+read -p "Enter a number: " number
+is_prime "$number"

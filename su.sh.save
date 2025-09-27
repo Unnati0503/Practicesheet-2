@@ -1,0 +1,58 @@
+#!/bin/bash
+
+text="PROJECT"
+while true; do
+  clear
+  echo "$text" | figlet | lolcat -a -d 10
+done
+
+
+
+
+#!/bin/bash
+
+cols=$(tput cols)
+rows=$(tput lines)
+
+rocket=(
+"   ^   "
+"  /^\\  "
+" /_\\ "
+" |   | "
+" |   | "
+" |_| "
+" /| |\\ "
+"  | |  "
+"  ***  "
+)
+
+blast=(
+"     _.-^^---....,,--"
+" --                  --"
+"<                        >)"
+"|                         |"
+" \\._                   _./"
+"    ```--. . , ; .--'''"
+"          | |   |"
+"       .-=||  | |=-."
+"       `-=#$%&%$#=
+"          | ;  :|"
+"^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+)
+
+title="Operating System Uses"
+items=(
+"1. Manage hardware resources"
+"2. Provide user interface"
+"3. Execute and manage processes"
+"4. Handle file system operations"
+"5. Manage memory allocation"
+"6. Provide security and access control"
+)
+
+# Function to center text horizontally
+center_text() {
+    local text="$1"
+    local len=${#text}
+    local padding=$(( (cols - len) / 2 ))
+    printf "%*s%s\n" $padding "

@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# ------------------- Rocket -------------------
+rocket=(
+"    ^"
+"    /^\\"
+"   /_\\"
+"   |   |"
+"   |   |"
+"   |_|"
+"   /| |\\"
+"    | |"
+)
+
+# ------------------- Helpers -------------------
+cols=$(tput cols)
+rows=$(tput lines)
+
+center_block() {
+  local block="$1"
+  IFS=$'\n' read -rd '' -a lines <<< "$block"
+  local num_lines=${#lines[@]}
+  local top_padding=$(( (rows - num_lines) / 2 ))
+  for ((i = 0; i < top_padding; i++)); do echo; done
+  for line in "${lines[@]}"; do
+    printf "%*s%s\n" $(( (cols + ${#line}) / 2 )) "" "$line"
+  done
+}
+
+# ------------------- Countdown -------------------
+clear
+tput civis
+colors=(
+  "$(tput setaf 1; tput bold)"  # 3 - Red
+  "$(tput setaf 3; tput bold)"  # 2 - Yellow
+  "$(tput setaf 2; tput bold)"  # 1 - Green
+)
+
+nums=(3 2 1)
+for i in {0..2}; do
+  clear
+  big_num=$(figlet "${nums[$i]}")
+  colored_num=$(echo "$big_num" | sed "s/^/${colors[$i]}/; s/$/$(tput sgr0)/")
+  center_block "$colored_num"
+  sleep 1
+done
+
+clear
+center_block "$(echo "🚀 LAUNCH 🚀" | figlet)"
+sleep 1
+
+# ------------------- Rocket Launch -------------------
+target=$(( rows / 2 ))  # rocket stops at middle
+
+for ((i = rows; i >= target; i--)); do
+  clear
+  for ((j = 0; j < i; j++)); do echo; done
+
+  for line in "${rocket[@]}"; do
+    printf "%*s\n" $(( (cols + ${#line}) / 2 )) "$line"
+  done
+
+  sleep 0.05
+done
+
+sleep 1
+
+# ------------------- Final Title (looping) -------------------
+text="PROJECT O S"
+thanks="Dedicated to Yayati Ma'am ❤"
+while true; do
+  clear
+  width=$(tput cols)
+  height=$(tput lines)
+
+  IFS=$'\n' read -rd '' -a lines <<< "$(figlet "$text")"
+  num_lines=${#lines[@]}
+  top_padding=$(( (height - num_lines - 3) / 2 ))
+
+  for ((i = 0; i < top_padding; i++)); do echo; done
+
+  for line in "${lines[@]}"; do
+    printf "%*s\n" $(( (width + ${#line}) / 2 )) "$line" | lolcat -a -d 5
+  done
+
+  echo
+  center_block "$(echo "$thanks" | lolcat -a -d 5)"
+
+  sleep 0.7
+done

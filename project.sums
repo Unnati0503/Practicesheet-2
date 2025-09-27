@@ -1,0 +1,72 @@
+#!/bin/bash
+
+rocket=(
+"    ^"
+"  /^\\"
+" /__\\"
+" |  |"
+" |  |"
+" |__|"
+" /| |\\"
+"  | |"
+"  ***"
+)
+
+blast=(
+"   .    * .   "
+" * '     .   ' "
+"  .  * .   * "
+"   '   .  * '  "
+"    .   * .    "
+"     '     '     "
+)
+
+height=$(tput lines)
+width=$(tput cols)
+
+for ((i = height; i >= 0; i--)); do
+  clear
+  for ((j = 0; j < i; j++)); do echo; done
+
+  for line in "${rocket[@]}"; do
+    printf "%*s\n" $(( (width + ${#line}) / 2 )) "$line"
+  done
+  sleep 0.05
+done
+
+sleep 1
+clear
+
+tput civis
+
+# Display the blast graphic at the top of the screen
+top_pad=$(( (height - ${#blast[@]}) / 4 )) # Place blast in the top quarter of the screen
+for ((j = 0; j < top_pad; j++)); do echo; done
+
+for line in "${blast[@]}"; do
+  printf "%*s\n" $(( (width + ${#line}) / 2 )) "$line"
+done
+
+sleep 1
+tput cnorm
+clear
+
+text="PROJECT O S"
+while true; do
+  clear
+  width=$(tput cols)
+  height=$(tput lines)
+
+  IFS=$'\n' read -rd '' -a lines <<< "$(figlet "$text")"
+
+  num_lines=${#lines[@]}
+  top_padding=$(( (height - num_lines) / 2 ))
+
+  for ((i = 0; i < top_padding; i++)); do echo; done
+
+  for line in "${lines[@]}"; do
+    printf "%*s\n" $(( (width + ${#line}) / 2 )) "$line" | lolcat -a -d 10
+  done
+
+  sleep 0.3
+done

@@ -1,0 +1,11 @@
+my name is unnati
+
+#!/bin/bash
+
+Subject_Name="Scripting_Workshop"
+Course_Code="CS2106"
+College="MU"
+
+echo $Sscriting workshop
+echo "Code is $Course_Code"
+echo "College is $Colleg
